@@ -42,7 +42,6 @@ args = parser.parse_args()
 
 # Parse config file
 config = configparser.ConfigParser()
-#config.read('/etc/systemd/arlo.conf')
 config.read(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..','arlo.conf')))
 rootdir = config['Default']['rootdir']
 

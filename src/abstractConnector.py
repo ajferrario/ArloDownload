@@ -10,5 +10,5 @@ class abstractConnector(ABC):
         pass
 
     @abstractmethod
-    def backupLibrary(self):
+    def backupLibrary(self, backend):
         pass

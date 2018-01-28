@@ -13,6 +13,7 @@ from abstractConnector import abstractConnector
 
 class arloConnector(abstractConnector):
     def __init__(self, config):
+        super().__init__()
         self.scratch_dir = os.path.join(config['Default']['rootdir'], 'temp')
         if not os.path.exists(self.scratch_dir):
             os.makedirs(self.scratch_dir)
@@ -93,6 +94,7 @@ class arloConnector(abstractConnector):
             while len(clips) > 0 and self.needToConcat(clip_group[-1], clips[0]):
                 clip_group.append(clips.pop(0))
             clip = self.concatenate(clip_group)
+            clip['output_path'] = os.path.join(self.getOutputDir(clip), self.getOutputFile(clip))
         # If there is a clip to pull but don't need to concat
         elif len(clips) > 0:
             output_path = os.path.join(self.getOutputDir(clips[0]), self.getOutputFile(clips[0]))
@@ -145,7 +147,6 @@ class arloConnector(abstractConnector):
             return {
                 # build our own metadata for this file
                 'meta': {
-                    {
                         'ownerId': 'K9C7C-300-8648016',
                         'uniqueId': 'K9C7C-300-8648016_55W17779AA660',
                         'deviceId': '55W17779AA660',
@@ -164,9 +165,9 @@ class arloConnector(abstractConnector):
                         'mediaDuration': '',
                         'mediaDurationSecond': totalSecs,
                         'donated': False
-                    }
                 },
-                'local_path': self.scratch_dir + "/concat.mp4"
+                'local_path': self.scratch_dir + "/concat.mp4",
+                'output_path': None
             }
         except:
             print("Something went wrong during concatenation...")

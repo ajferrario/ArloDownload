@@ -4,6 +4,7 @@ import os
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 import ntpath
+import yaml
 # Local imports
 from abstractBackend import abstractBackend
 
@@ -11,6 +12,7 @@ from abstractBackend import abstractBackend
 class driveBackend(abstractBackend):
     def __init__(self, config):
         super().__init__()
+        settings = yaml.a
         gauth = GoogleAuth(settings_file=os.path.join(config['drive.google.com']['drive_config_dir'], config['drive.google.com']['auth_config_filename']))
         self.drive_connection = GoogleDrive(gauth)
         print("Google Drive login!")

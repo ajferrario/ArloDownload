@@ -4,6 +4,8 @@ import os
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 import ntpath
+import time
+import sys
 # Local imports
 from abstractBackend import abstractBackend
 
@@ -13,7 +15,6 @@ class driveBackend(abstractBackend):
         super().__init__()
         gauth = GoogleAuth(settings_file=os.path.join(config['drive.google.com']['drive_config_dir'], config['drive.google.com']['auth_config_filename']))
         self.drive_connection = GoogleDrive(gauth)
-        print("Google Drive login!")
 
     def backup(self, clip):
         parent_id = self.build_folder_structure(clip['output_path'])
@@ -24,7 +25,9 @@ class driveBackend(abstractBackend):
         })
         file.SetContentFile(clip['local_path'])
         file.Upload()
-        #os.remove(clip['local_path'])
+        file = None  # this is to force python to close the file handle opened by pydrive. they have a bug.
+        os.remove(clip['local_path'])
+
 
     def build_folder_structure(self, path_and_file):
         folders = self.split_path(path_and_file)

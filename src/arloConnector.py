@@ -44,7 +44,6 @@ class arloConnector(abstractConnector):
                      "password": self.config['arlo.netgear.com']['password']}
         response = self.session.post(self.loginUrl, data=json.dumps(loginData), headers=self.headers)
         jsonResponseData = response.json()['data']
-        print("Arlo login!")
         self.token = jsonResponseData['token']
         self.deviceID = jsonResponseData['serialNumber']
         self.userID = jsonResponseData['userId']
@@ -74,7 +73,6 @@ class arloConnector(abstractConnector):
         if self.cameraLibs == {}:
             self.readLibrary()
         if not isinstance(backend, abstractBackend):
-            print('Backend provided is not a legitimate backend.')
             return
         for camera in self.cameraLibs:
             while len(self.cameraLibs[camera]) > 0:
@@ -144,6 +142,8 @@ class arloConnector(abstractConnector):
             # Concatenate using ffmpeg...
             os.system("cd " + self.scratch_dir + "; ffmpeg -i 'concat:" + '.ts|'.join(
                 flist) + ".ts' -c copy -bsf:a aac_adtstoasc concat.mp4")
+            fd = open(self.scratch_dir + "/concat.mp4", 'r')
+            fd.close()
             return {
                 # build our own metadata for this file
                 'meta': {

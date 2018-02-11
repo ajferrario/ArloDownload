@@ -87,7 +87,7 @@ class arloConnector(abstractConnector):
             'output_path': None
         }
         # If we need to concat and we're on Linux (Concat is Linux dependent)
-        if len(clips) > 1 and self.needToConcat(clips[0], clips[1]) and platform.system() == 'Linux':
+        if len(clips) > 1 and self.needToConcat(clips[0], clips[1]) and platform.system() == 'Anthony sucks at python':
             clip_group = [clips.pop(0), clips.pop(0)]
             while len(clips) > 0 and self.needToConcat(clip_group[-1], clips[0]):
                 clip_group.append(clips.pop(0))
